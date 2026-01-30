@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Security Reference Library | NSF SECURE Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a1628;
+            --navy-light: #132238;
+            --navy-medium: #1a3050;
+            --gold: #d4a84b;
+            --gold-light: #e8c878;
+            --gold-pale: #fef7e6;
+            --teal: #2dd4bf;
+            --teal-dark: #14b8a6;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --red: #ef4444;
+            --orange: #f97316;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--gray-50);
+            color: var(--gray-700);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 50%, var(--navy-medium) 100%);
+            color: var(--white);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--navy);
+            box-shadow: 0 4px 12px rgba(212, 168, 75, 0.3);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .update-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .update-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--teal);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Search Bar */
+        .search-container {
+            padding: 1rem 2rem 1.5rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            border: 2px solid transparent;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.15);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(212, 168, 75, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            pointer-events: none;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: var(--white);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .search-clear:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .search-clear.visible {
+            display: flex;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 160px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 160px;
+            height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            padding: 0 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--gray-50);
+            color: var(--navy);
+        }
+
+        .nav-item.active {
+            background: var(--gold-pale);
+            color: var(--navy);
+            border-left-color: var(--gold);
+            font-weight: 500;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-count {
+            margin-left: auto;
+            background: var(--gray-100);
+            color: var(--gray-500);
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 100px;
+            font-weight: 500;
+        }
+
+        .nav-item.active .nav-count {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        /* Filter Tags */
+        .filter-tags {
+            padding: 0 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-tag {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-200);
+            padding: 0.375rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--gray-600);
+        }
+
+        .filter-tag:hover {
+            background: var(--gray-200);
+        }
+
+        .filter-tag.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        /* Content Area */
+        .content {
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-description {
+            color: var(--gray-500);
+            font-size: 1rem;
+        }
+
+        .results-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+
+        .results-count strong {
+            color: var(--navy);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-btn {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: all 0.2s;
+        }
+
+        .view-btn:hover {
+            border-color: var(--gray-300);
+            color: var(--gray-600);
+        }
+
+        .view-btn.active {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--white);
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gray-200);
+            transition: background 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--gray-300);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .card:hover::before {
+            background: var(--gold);
+        }
+
+        .card.expanded {
+            border-color: var(--gold);
+        }
+
+        .card.expanded::before {
+            background: var(--gold);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        .card-icon.federal { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
+        .card-icon.legislative { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; }
+        .card-icon.dod { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #15803d; }
+        .card-icon.nasa { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); color: #4338ca; }
+        .card-icon.doe { background: linear-gradient(135deg, #fce7f3, #fbcfe8); color: #be185d; }
+        .card-icon.nih { background: linear-gradient(135deg, #ccfbf1, #99f6e4); color: #0f766e; }
+        .card-icon.nsf { background: linear-gradient(135deg, #fed7aa, #fdba74); color: #c2410c; }
+        .card-icon.usda { background: linear-gradient(135deg, #d9f99d, #bef264); color: #4d7c0f; }
+        .card-icon.international { background: linear-gradient(135deg, #e9d5ff, #d8b4fe); color: #7c3aed; }
+        .card-icon.reports { background: linear-gradient(135deg, #fecaca, #fca5a5); color: #dc2626; }
+        .card-icon.resources { background: linear-gradient(135deg, #cffafe, #a5f3fc); color: #0891b2; }
+
+        .card-meta {
+            flex: 1;
+        }
+
+        .card-category {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-400);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1.4;
+        }
+
+        .card-expand {
+            color: var(--gray-400);
+            transition: transform 0.3s;
+        }
+
+        .card.expanded .card-expand {
+            transform: rotate(180deg);
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-tag {
+            background: var(--gray-100);
+            color: var(--gray-600);
+            padding: 0.25rem 0.625rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+        }
+
+        .card-tag.date {
+            background: var(--gold-pale);
+            color: #92400e;
+        }
+
+        .card-tag.agency {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .card-summary {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .card-details {
+            display: none;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .card.expanded .card-details {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-details-content {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .card-details-content p {
+            margin-bottom: 1rem;
+        }
+
+        .card-details-content ul {
+            margin: 0.75rem 0 1rem 1.25rem;
+        }
+
+        .card-details-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .card-details-content strong {
+            color: var(--navy);
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            transition: gap 0.2s;
+        }
+
+        .card-link:hover {
+            gap: 0.75rem;
+            text-decoration: underline;
+        }
+
+        .sub-items {
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--gray-200);
+        }
+
+        .sub-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .sub-item:last-child {
+            border-bottom: none;
+        }
+
+        .sub-item-title {
+            font-weight: 500;
+            color: var(--navy);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .sub-item-meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        /* Quick Links Panel */
+        .quick-links {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .quick-links-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .quick-link {
+            background: rgba(255,255,255,0.1);
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--white);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .quick-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(4px);
+        }
+
+        .quick-link-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-family: var(--font-display);
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+                padding: 1rem;
+            }
+
+            .sidebar-section {
+                margin-bottom: 1rem;
+            }
+
+            .filter-tags {
+                padding: 0 1rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .content-title {
+                font-size: 1.5rem;
+            }
+
+            .quick-links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Highlight search matches */
+        .highlight {
+            background: var(--gold-pale);
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Keyboard shortcut hint */
+        .kbd {
+            background: var(--gray-100);
+            border: 1px solid var(--gray-300);
+            border-radius: 4px;
+            padding: 0.125rem 0.375rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <div class="logo">
+                <div class="logo-icon">NSF</div>
+                <div class="logo-text">
+                    <span class="logo-title">Research Security Reference Library</span>
+                    <span class="logo-subtitle">NSF SECURE Center</span>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="update-badge">Updated November 17, 2025</div>
+                <span style="color: var(--gray-400); font-size: 0.8rem;">Press <span class="kbd">/</span> to search</span>
+            </div>
+        </div>
+        <div class="search-container">
+            <div class="search-wrapper">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search policies, agencies, requirements, dates...">
+                <button class="search-clear" id="searchClear">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6 6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Categories</div>
+                <nav id="categoryNav">
+                    <div class="nav-item active" data-category="all">
+                        <span class="nav-icon">📚</span>
+                        <span>All Documents</span>
+                        <span class="nav-count" id="countAll">0</span>
+                    </div>
+                    <div class="nav-item" data-category="federal">
+                        <span class="nav-icon">🏛️</span>
+                        <span>Federal-Wide Efforts</span>
+                        <span class="nav-count" id="countFederal">0</span>
+                    </div>
+                    <div class="nav-item" data-category="legislative">
+                        <span class="nav-icon">📜</span>
+                        <span>Legislative Requirements</span>
+                        <span class="nav-count" id="countLegislative">0</span>
+                    </div>
+                    <div class="nav-item" data-category="agency">
+                        <span class="nav-icon">🏢</span>
+                        <span>Agency-Specific</span>
+                        <span class="nav-count" id="countAgency">0</span>
+                    </div>
+                    <div class="nav-item" data-category="reports">
+                        <span class="nav-icon">📊</span>
+                        <span>Reports & Studies</span>
+                        <span class="nav-count" id="countReports">0</span>
+                    </div>
+                    <div class="nav-item" data-category="international">
+                        <span class="nav-icon">🌍</span>
+                        <span>International Policies</span>
+                        <span class="nav-count" id="countInternational">0</span>
+                    </div>
+                </nav>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Filter by Agency</div>
+                <div class="filter-tags" id="agencyFilters">
+                    <span class="filter-tag" data-agency="DoD">DoD</span>
+                    <span class="filter-tag" data-agency="NASA">NASA</span>
+                    <span class="filter-tag" data-agency="DoE">DoE</span>
+                    <span class="filter-tag" data-agency="NIH">NIH</span>
+                    <span class="filter-tag" data-agency="NSF">NSF</span>
+                    <span class="filter-tag" data-agency="USDA">USDA</span>
+                    <span class="filter-tag" data-agency="OSTP">OSTP</span>
+                    <span class="filter-tag" data-agency="NIST">NIST</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Filter by Topic</div>
+                <div class="filter-tags" id="topicFilters">
+                    <span class="filter-tag" data-topic="disclosure">Disclosure</span>
+                    <span class="filter-tag" data-topic="training">Training</span>
+                    <span class="filter-tag" data-topic="cybersecurity">Cybersecurity</span>
+                    <span class="filter-tag" data-topic="FTRP">Foreign Talent</span>
+                    <span class="filter-tag" data-topic="CHIPS">CHIPS Act</span>
+                    <span class="filter-tag" data-topic="NSPM-33">NSPM-33</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content" id="mainContent">
+            <!-- Content dynamically inserted here -->
+        </main>
+    </div>
+
+    <script>
+        // Comprehensive data from the PDF
+        const libraryData = [
+            // Federal-Wide Research Security Efforts
+            {
+                id: 1,
+                category: "federal",
+                icon: "federal",
+                title: "National Security Presidential Memorandum-33 (NSPM-33)",
+                date: "January 2021",
+                agencies: ["OSTP", "NSTC"],
+                topics: ["disclosure", "NSPM-33", "research security program"],
+                summary: "Presidential memorandum to strengthen protections of U.S. Government-supported R&D against foreign government interference and exploitation.",
+                details: `<p>NSPM-33 was issued by the White House Office of Science and Technology Policy (OSTP)/National Science & Technology Council's (NSTC) Research Security Subcommittee in January 2021.</p>
+                <p><strong>Key Requirements:</strong></p>
+                <ul>
+                    <li>Recipients of U.S. federal R&D must fully disclose information that can reveal potential conflicts of interest and commitment</li>
+                    <li>Research institutions receiving federal R&D funding in excess of $50 million annually must certify they have established a research security program</li>
+                    <li>Programs must address: cybersecurity, foreign travel security, insider threat awareness and identification (research security training), and export control training</li>
+                </ul>
+                <p>As of November 2025, federal agencies continue to coordinate and work to implement this requirement for awardee institutions.</p>`,
+                subItems: [
+                    { title: "Recommended Practices for Strengthening Security and Integrity", date: "January 2021", source: "NSTC Research Security Subcommittee" },
+                    { title: "Guidance for Implementing NSPM-33", date: "January 2022", source: "OSTP/NSTC" },
+                    { title: "University Actions to Address Security Threats", date: "May 2020", source: "AAU/APLU" }
+                ]
+            },
+            {
+                id: 2,
+                category: "federal",
+                icon: "federal",
+                title: "Common Forms: Biosketches and Current & Pending Support",
+                date: "November 2023",
+                agencies: ["NSTC", "NSF"],
+                topics: ["disclosure", "NSPM-33", "FTRP"],
+                summary: "Standardized federal-wide forms for biographical sketches and current & pending support disclosures, including MFTRP certification.",
+                details: `<p>The common forms for federal-wide use were created as directed by NSPM-33, with NSF serving as steward of the forms.</p>
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li>Certification that senior/key personnel are not party to a malign foreign talent recruitment program (MFTRP)</li>
+                    <li>Standardized format across federal agencies</li>
+                    <li>Implemented by NSF and NASA as of November 2025</li>
+                </ul>
+                <p>Per February 2024 OSTP policy, all federal agencies must use these Common Forms. Deviations require OMB/OIRA review under the Paperwork Reduction Act.</p>`,
+                subItems: [
+                    { title: "NSPM-33 Implementation Guidance Appendix: Definitions", date: "November 2023", source: "OSTP" },
+                    { title: "Pre-award and Post-award Disclosures Matrix", date: "May 2024", source: "NSTC" },
+                    { title: "Policy Regarding Use of Common Disclosure Forms", date: "February 2024", source: "OSTP" }
+                ]
+            },
+            {
+                id: 3,
+                category: "federal",
+                icon: "federal",
+                title: "Final Guidelines for Research Security Programs at Covered Institutions",
+                date: "July 9, 2024",
+                agencies: ["OSTP"],
+                topics: ["research security program", "cybersecurity", "training", "NSPM-33"],
+                summary: "Final RSP guidelines covering cybersecurity, foreign travel security, research security training, and export control training requirements.",
+                details: `<p>Final Research Security Program (RSP) Guidelines were published via memorandum to heads of federal research funding agencies.</p>
+                <p><strong>Four Required Areas:</strong></p>
+                <ul>
+                    <li><strong>Cybersecurity:</strong> Implement a cybersecurity program one year after publication of final NIST cybersecurity resource (IR 8481)</li>
+                    <li><strong>Foreign Travel Security:</strong> Training for covered individuals within 1 year of availability, at least every 6 years; organizational record of international travel when agency determines risks warrant reporting</li>
+                    <li><strong>Research Security Training:</strong> Implement training; certify completion. Option A: NSF training modules. Option B: Non-federal training covering improper transfer of R&D and importance of international research</li>
+                    <li><strong>Export Control Training:</strong> Provide EC training to those working with controlled technology. Option A: Government training (BIS, DDTC). Option B: Non-federal training with U.S. EC compliance requirements</li>
+                </ul>
+                <p>Agencies are coordinating implementation under a memorandum of agreement, anticipated to issue requirements in early 2026.</p>`
+            },
+            {
+                id: 4,
+                category: "federal",
+                icon: "federal",
+                title: "Federal Research Security Training",
+                date: "2024-2025",
+                agencies: ["NSF", "NIH", "DoE", "DoD", "FBI"],
+                topics: ["training", "disclosure"],
+                summary: "Interagency training modules covering research security basics, disclosure requirements, risk management, and international collaboration.",
+                details: `<p>Research Security Training was developed by institutions and organizations under cooperative agreements funded by NSF in collaboration with NIH, DoE, and DoD, with engagement from the FBI.</p>
+                <p><strong>Training consists of 4 modules:</strong></p>
+                <ul>
+                    <li>What is Research Security?</li>
+                    <li>Disclosure</li>
+                    <li>Manage and Mitigate Risk</li>
+                    <li>International Collaboration</li>
+                </ul>
+                <p><strong>Condensed Training Module (CTM 1.1):</strong> The SECURE Center offers an updated one-hour consolidated training module. NSF, NIH, DoD, DOE and USDA have indicated this condensed module meets their research security requirements. SCORM files, Storyline files, and transcripts are available for institutional LMS upload.</p>`
+            },
+            {
+                id: 5,
+                category: "federal",
+                icon: "federal",
+                title: "Guidelines for Foreign Talent Recruitment Programs",
+                date: "February 2024",
+                agencies: ["OSTP"],
+                topics: ["FTRP", "CHIPS"],
+                summary: "Definitions of foreign talent recruitment programs (FTRPs) and malign foreign talent recruitment programs (MFTRPs) per CHIPS and Science Act Section 10631.",
+                details: `<p>Per Section 10631 of the CHIPS and Science Act, this document provides definitions distinguishing FTRPs from MFTRPs.</p>
+                <p><strong>Foreign Talent Recruitment Program Definition:</strong> Any program, position, or activity that includes compensation (cash, in-kind, research funding, promised future compensation, complimentary foreign travel, things of non de minimis value, honorific titles, career advancement opportunities, or other remuneration) directly provided by a foreign country at any level or their designee, or an entity based in, funded by, or affiliated with a foreign country.</p>
+                <p><strong>Key Distinction:</strong> Not all FTRPs are considered "malign" - the guidelines help distinguish between legitimate international collaboration and programs that pose security risks.</p>`
+            },
+            {
+                id: 6,
+                category: "federal",
+                icon: "federal",
+                title: "Critical and Emerging Technologies List",
+                date: "February 2024",
+                agencies: ["NSTC"],
+                topics: ["critical technologies"],
+                summary: "Biannual update defining critical and emerging technologies (CETs) with significant impact on U.S. national security.",
+                details: `<p>This biannual update from the Fast Track Action Subcommittee on Critical and Emerging Technologies defines CETs as a subset of advanced technologies with significant impact on U.S. national security.</p>
+                <p>The list of CETs is outlined on pages 8-11 of the document and serves as a reference for risk assessment and prioritization of research security measures.</p>`
+            },
+            {
+                id: 7,
+                category: "federal",
+                icon: "federal",
+                title: "COGR Quick Reference Table of Federal Research Security Requirements",
+                date: "September 30, 2025",
+                agencies: ["COGR"],
+                topics: ["disclosure", "training", "FCOI"],
+                summary: "Comprehensive matrix listing policies and requirements for disclosures, risk assessment, FCOI/COC, training, certifications, and RSP by agency.",
+                details: `<p>This frequently-updated COGR tool provides a matrix listing policies and requirements under the headings of:</p>
+                <ul>
+                    <li>Disclosures</li>
+                    <li>Agency Risk Assessment</li>
+                    <li>FCOI & COC</li>
+                    <li>Training</li>
+                    <li>Certifications</li>
+                    <li>Research Security Program</li>
+                </ul>
+                <p>The matrix covers each federal agency and is updated to reflect new documentation releases.</p>`
+            },
+
+            // Legislative Requirements
+            {
+                id: 8,
+                category: "legislative",
+                icon: "legislative",
+                title: "FY 2019 National Defense Authorization Act (NDAA) - Section 1286",
+                date: "July 26, 2018",
+                agencies: ["DoD", "Congress"],
+                topics: ["FTRP", "risk assessment"],
+                summary: "Directs DoD to establish initiative with IHEs performing defense research and publish lists of institutions/FTRPs posing national security threats.",
+                details: `<p>Section 1286 directs the Secretary of Defense to:</p>
+                <ul>
+                    <li>Establish an initiative to work with IHEs performing defense research and engineering activities</li>
+                    <li>Name an academic liaison</li>
+                    <li>Publish a list of institutions and foreign talent recruitment programs that have perpetuated malicious activities or operate under foreign military/intelligence direction</li>
+                </ul>
+                <p>The resulting list is updated annually. The current list was published June 24, 2025.</p>`
+            },
+            {
+                id: 9,
+                category: "legislative",
+                icon: "legislative",
+                title: "FY 2020 NDAA - Section 1746",
+                date: "December 20, 2019",
+                agencies: ["OSTP", "Congress"],
+                topics: ["research security program"],
+                summary: "Establishes OSTP interagency working group (Research Security Subcommittee) and calls for NASEM Roundtable on Science, Technology, and Security.",
+                details: `<p><strong>Section 1746:</strong></p>
+                <ul>
+                    <li>Directs OSTP to establish interagency working group (the Research Security Subcommittee) under NSTC</li>
+                    <li>Purpose: Protect federally funded R&D from foreign interference, cyberattacks, theft, or espionage</li>
+                    <li>Develop recommendations for best practices for federal agencies and grantee institutions</li>
+                    <li>Working group established in May 2019</li>
+                </ul>
+                <p>Also called on National Academies to establish Roundtable on Science, Technology, and Security. The Roundtable Capstone report is now available.</p>`
+            },
+            {
+                id: 10,
+                category: "legislative",
+                icon: "legislative",
+                title: "FY 2021 NDAA - Research Security Provisions",
+                date: "January 3, 2020",
+                agencies: ["DoD", "NSF", "Congress"],
+                topics: ["disclosure", "Confucius Institute"],
+                summary: "Mandates disclosure of funding sources, restricts funds to institutions hosting Confucius Institutes, defines foreign entity of concern.",
+                details: `<p><strong>Key Sections:</strong></p>
+                <ul>
+                    <li><strong>Section 223:</strong> Mandates disclosure of funding sources in applications for federal R&D awards; universities held accountable for ensuring faculty awareness</li>
+                    <li><strong>Section 1299C:</strong> Amendment to FY 2019 NDAA Section 1286 requiring designation of official responsible for liaising with academic institutions on espionage risks</li>
+                    <li><strong>Section 1062:</strong> Restricts DoD and NSF funds to institutions hosting Confucius Institutes</li>
+                    <li><strong>Section 9907:</strong> Prohibits microelectronics funds to "foreign entity of concern" including nationals of certain countries</li>
+                </ul>`
+            },
+            {
+                id: 11,
+                category: "legislative",
+                icon: "legislative",
+                title: "CHIPS and Science Act - Research Security Highlights",
+                date: "August 2022",
+                agencies: ["NSF", "DoE", "NIST", "Congress"],
+                topics: ["CHIPS", "cybersecurity", "FTRP", "disclosure"],
+                summary: "Comprehensive legislation establishing NSF Office of Research Security, SECURE Center, MFTRP prohibitions, and foreign financial support reporting.",
+                details: `<p><strong>Key Research Security Provisions:</strong></p>
+                <ul>
+                    <li><strong>Sec. 10114:</strong> DOE Office of Science to develop S&T risk matrix informed by ODNI threats</li>
+                    <li><strong>Sec. 10228-10229:</strong> NIST to consider IHE needs in cybersecurity guidance and offer technical assistance</li>
+                    <li><strong>Sec. 10331-10332:</strong> Establishes NSF Office of Research Security and Policy with Chief of Research Security</li>
+                    <li><strong>Sec. 10337:</strong> Expands RCR training to include faculty, research security risks, and export control requirements</li>
+                    <li><strong>Sec. 10338:</strong> Directs NSF to establish SECURE Center for research security information sharing</li>
+                    <li><strong>Sec. 10339A-B:</strong> Confucius Institute restrictions; foreign financial support reporting ($50K threshold for FCOCs)</li>
+                    <li><strong>Sec. 10631:</strong> OSTP guidance on FTRPs; prohibition on MFTRP participation; annual certification requirement</li>
+                </ul>`
+            },
+            {
+                id: 12,
+                category: "legislative",
+                icon: "legislative",
+                title: "SBIR and STTR Extension Act of 2022",
+                date: "September 2022",
+                agencies: ["Congress"],
+                topics: ["disclosure", "risk assessment"],
+                summary: "Requires agencies to implement due diligence program for SBIR/STTR proposals assessing security risks related to foreign ties.",
+                details: `<p>Requires agencies to implement a due diligence program to assess security risks for SBIR and STTR proposals.</p>
+                <p><strong>Disclosure requirements include:</strong></p>
+                <ul>
+                    <li>Foreign ties</li>
+                    <li>Business relationships</li>
+                    <li>Investment</li>
+                    <li>Ownership</li>
+                </ul>`
+            },
+            {
+                id: 13,
+                category: "legislative",
+                icon: "legislative",
+                title: "Congressional Research Service Report on Federal Research Security Policies",
+                date: "May 20, 2025",
+                agencies: ["CRS", "Congress"],
+                topics: ["disclosure", "risk assessment"],
+                summary: "CRS report summarizing federal research security policy efforts and presenting options Congress might consider to address gaps.",
+                details: `<p>The Congressional Research Service issued a comprehensive report summarizing federal research security policy efforts and providing options Congress might consider.</p>
+                <p><strong>Proposed Options Discussed:</strong></p>
+                <ul>
+                    <li>Expanding sources of foreign support required to disclose beyond research-related</li>
+                    <li>Broadening scope of who must disclose C&P Support (beyond senior/key personnel)</li>
+                    <li>Increasing frequency of post-award updates to C&P Support</li>
+                    <li>Expanding agency requirements to identify potential security vulnerabilities</li>
+                    <li>Focusing risk assessment more narrowly on critical and emerging technologies</li>
+                    <li>Expanding agency reporting requirements to Congress</li>
+                </ul>`
+            },
+
+            // Agency-Specific: DoD
+            {
+                id: 14,
+                category: "agency",
+                icon: "dod",
+                title: "DoD Policy on Countering Unwanted Foreign Influence",
+                date: "June 29, 2023 (Updated May 2025)",
+                agencies: ["DoD"],
+                topics: ["risk assessment", "FTRP", "disclosure"],
+                summary: "Comprehensive policy including risk-based security reviews, decision matrix for fundamental research, and lists of concerning institutions/FTRPs.",
+                details: `<p>DoD policy document includes:</p>
+                <ul>
+                    <li>Policy on Risk-based Security Reviews of Fundamental Research</li>
+                    <li>Decision Matrix to Inform Fundamental Research Proposal Mitigation (Amended May 5, 2025)</li>
+                    <li>List of foreign institutions engaging in problematic activity (Part 3, Table 1 - Amended June 24, 2025)</li>
+                    <li>List of foreign talent recruitment programs posing national security threats (Part 3, Table 2)</li>
+                </ul>
+                <p><strong>Decision Matrix Four Factors:</strong></p>
+                <ul>
+                    <li>Participation in foreign talent recruitment programs</li>
+                    <li>Current or prior funding from FCOCs (China, Russia, North Korea, Iran)</li>
+                    <li>Filing patents in FCOC or on behalf of FCOC-connected entity without disclosure</li>
+                    <li>Associations with organizations on U.S. Entity and restricted lists</li>
+                </ul>`
+            },
+            {
+                id: 15,
+                category: "agency",
+                icon: "dod",
+                title: "DoD Fundamental Research Guidance",
+                date: "August 4, 2025",
+                agencies: ["DoD"],
+                topics: ["fundamental research"],
+                summary: "Guidance on fundamental research as defined by NSDD-189 and Carter Memo, including considerations for program managers and awardees.",
+                details: `<p>Provides background on Fundamental Research (FR) as defined by NSDD-189 and DoD's implementation via the May 24, 2010 "Carter Memo".</p>
+                <p><strong>Key Points:</strong></p>
+                <ul>
+                    <li>Under the Carter Memo, research funded by 6.1 budget activity or 6.2 research on university campus is fundamental</li>
+                    <li>No security vetting should be done on personnel engaged in fundamental research</li>
+                    <li>No preapproval conditions for addition of researchers not labeled as senior/key personnel</li>
+                    <li>Encourages prime awardees to request FR designation for subawardees when appropriate</li>
+                </ul>
+                <p>This guidance has potential to significantly limit restrictions on fundamental research and foster open exchange of scientific information.</p>`
+            },
+            {
+                id: 16,
+                category: "agency",
+                icon: "dod",
+                title: "DoD CMMC 2.0 Cybersecurity Certification Program",
+                date: "October 2024 / September 2025",
+                agencies: ["DoD"],
+                topics: ["cybersecurity", "CUI"],
+                summary: "Final Cybersecurity Maturity Model Certification (CMMC) program rule and DFARS implementation for contracts involving FCI and CUI.",
+                details: `<p>Final CMMC Program rule (32 CFR 170) published October 2024, with DFARS implementation published September 10, 2025.</p>
+                <p><strong>Key Points:</strong></p>
+                <ul>
+                    <li>Formalizes DoD ability to include CMMC requirements as condition of contract award</li>
+                    <li>Applies to contracts involving Federal Contract Information (FCI), Controlled Unclassified Information (CUI), or both</li>
+                    <li>Establishes tiered certification levels based on sensitivity of information</li>
+                </ul>`
+            },
+
+            // Agency-Specific: NASA
+            {
+                id: 17,
+                category: "agency",
+                icon: "nasa",
+                title: "NASA Wolf Amendment Restrictions",
+                date: "2011 (Ongoing)",
+                agencies: ["NASA"],
+                topics: ["China restrictions"],
+                summary: "Section 1340 of Public Law 112-10 prohibits bilateral participation, collaboration, or coordination with China on NASA projects.",
+                details: `<p>The "Wolf Amendment" (Section 1340 of Public Law 112-10, 2011) prohibits participation, collaboration, or coordination bilaterally with China or any Chinese-owned company on any NASA project at the prime or subrecipient level.</p>
+                <p><strong>NASA Definition (September 2022):</strong></p>
+                <ul>
+                    <li>"Chinese-owned company" = any company owned by China, or any company incorporated under laws of China</li>
+                    <li>Chinese universities and similar institutions are considered incorporated under laws of China</li>
+                    <li>Funding restrictions apply to grants and cooperative agreements including bilateral participation with Chinese universities</li>
+                </ul>`
+            },
+
+            // Agency-Specific: DoE
+            {
+                id: 18,
+                category: "agency",
+                icon: "doe",
+                title: "DoE Digital Persistent Identifier Requirements",
+                date: "August 8, 2024 (Effective May 1, 2025)",
+                agencies: ["DoE"],
+                topics: ["disclosure", "ORCID"],
+                summary: "Requires Digital Persistent Identifiers (e.g., ORCID) for individuals on R&D financial assistance applications.",
+                details: `<p>Effective May 1, 2025, applicants must have a Digital Persistent Identifier (PID) if:</p>
+                <ul>
+                    <li>Individuals are listed within financial assistance applications funding R&D activities or technical assistance</li>
+                    <li>Individuals are required to submit Biographical Sketch and/or Current and Pending Support disclosure</li>
+                </ul>
+                <p>PID is defined as globally unique, persistent, machine resolvable and processable, with associated metadata schema (example: ORCID iD).</p>`
+            },
+            {
+                id: 19,
+                category: "agency",
+                icon: "doe",
+                title: "DoE Research Security Training Requirements",
+                date: "October 7, 2024 (Mandatory May 1, 2025)",
+                agencies: ["DoE"],
+                topics: ["training"],
+                summary: "Implementation of research security training requirements for covered individuals on financial assistance applications.",
+                details: `<p>Training requirement satisfied by:</p>
+                <ul>
+                    <li>Completion of four NSF training modules</li>
+                    <li>Completion of SECURE Center CTM</li>
+                    <li>Custom training aligned with CHIPS Act Section 10634(b)</li>
+                </ul>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>Training must be completed within 12 months preceding application submission</li>
+                    <li>Covered individuals added to project must certify completion within 30 calendar days</li>
+                </ul>`
+            },
+            {
+                id: 20,
+                category: "agency",
+                icon: "doe",
+                title: "DoE RTES Framework for Financial Assistance",
+                date: "November 26, 2024",
+                agencies: ["DoE"],
+                topics: ["risk assessment", "FTRP"],
+                summary: "Research, Technology, and Economic Security (RTES) framework for risk-balanced approach to minimize and mitigate research security risks.",
+                details: `<p>RTES office framework includes three phases coordinating with program offices:</p>
+                <ul>
+                    <li>Solicitations include appropriate RTES requirements and technology risk level assessment</li>
+                    <li>RTES "due diligence" reviews before selection for award</li>
+                    <li>Review of changes during project life that may trigger RTES review</li>
+                </ul>
+                <p><strong>Risk Factors Include:</strong></p>
+                <ul>
+                    <li>Ties to malign foreign talent recruitment programs</li>
+                    <li>Certain foreign funding sources</li>
+                    <li>Concerning behaviors associated with patenting</li>
+                    <li>Ties to entities on U.S. restricted lists</li>
+                </ul>`
+            },
+
+            // Agency-Specific: NIH
+            {
+                id: 21,
+                category: "agency",
+                icon: "nih",
+                title: "NIH Other Support and Foreign Components Requirements",
+                date: "July 10, 2019",
+                agencies: ["NIH"],
+                topics: ["disclosure", "FCOI"],
+                summary: "Reminders on requirements to disclose all sources of support, scientific appointments, financial conflicts of interest, and foreign components.",
+                details: `<p>NOT-OD-19-114 reminds institutions of requirements for researchers to disclose:</p>
+                <ul>
+                    <li>All sources of support for research endeavors, regardless of source, value, or whether monetary or in-kind</li>
+                    <li>All scientific appointments and positions, whether foreign or domestic, paid or unpaid</li>
+                    <li>Compliance with HHS Financial Conflicts of Interest regulations</li>
+                    <li>All Foreign Components involved in NIH-supported activities</li>
+                </ul>`
+            },
+            {
+                id: 22,
+                category: "agency",
+                icon: "nih",
+                title: "NIH Decision Matrix for Foreign Interference",
+                date: "August 2024",
+                agencies: ["NIH"],
+                topics: ["risk assessment", "FTRP", "disclosure"],
+                summary: "Matrix assisting agency staff in evaluating grant applications and ongoing awards for potential foreign interference.",
+                details: `<p><strong>Factors Considered:</strong></p>
+                <ul>
+                    <li>Current or past participation in MFTRP (prohibited by law)</li>
+                    <li>Undisclosed current or prior funding from FCOC (higher risk) or other foreign country (lower risk)</li>
+                    <li>Indicators of undisclosed affiliation with FCOC institution or entity</li>
+                </ul>
+                <p><strong>Mitigation Conditions May Include:</strong></p>
+                <ul>
+                    <li>Specific award conditions</li>
+                    <li>Modification of terms and conditions</li>
+                    <li>Suspension, termination, or withdrawal of award</li>
+                    <li>Conversion from advance payment to reimbursement</li>
+                    <li>Recovery of funds</li>
+                </ul>`
+            },
+            {
+                id: 23,
+                category: "agency",
+                icon: "nih",
+                title: "NIH Policy on Foreign Subawards",
+                date: "May 1, 2025 / September 2025",
+                agencies: ["NIH"],
+                topics: ["foreign subawards"],
+                summary: "New award structure prohibiting foreign subawards nested under parent grant; establishes linked independent awards approach.",
+                details: `<p>NOT-OD-25-104 and subsequent guidance establish:</p>
+                <ul>
+                    <li>New award structure prohibiting foreign subawards from being nested under parent grant</li>
+                    <li>Prime with independent linked awards allowing NIH to track funds individually</li>
+                    <li>Scientific progress reported collectively under Research Performance Progress Report</li>
+                    <li>NIH continues to support direct foreign awards</li>
+                    <li>Plans to expand policy to domestic subawards for consistency</li>
+                </ul>
+                <p><strong>New Activity Codes:</strong> PF5 for grants, UF5 for cooperative agreements for international collaborations.</p>`
+            },
+            {
+                id: 24,
+                category: "agency",
+                icon: "nih",
+                title: "NIH Research Security Training and Disclosure Policy",
+                date: "July 17, 2025",
+                agencies: ["NIH"],
+                topics: ["training", "disclosure"],
+                summary: "Requires institutions to train senior/key personnel on Other Support disclosure and maintain written enforcement policy.",
+                details: `<p>NOT-OD-25-133, effective October 1, 2025:</p>
+                <ul>
+                    <li>Recipient institutions must train senior/key personnel on Other Support disclosure requirements</li>
+                    <li>Must maintain written and enforced policy on disclosure requirements</li>
+                    <li>Ensure Senior/Key Personnel understand responsibility to disclose</li>
+                </ul>`
+            },
+            {
+                id: 25,
+                category: "agency",
+                icon: "nih",
+                title: "NIH Security Standards for Controlled-Access Data and Biospecimens",
+                date: "September 24, 2025",
+                agencies: ["NIH"],
+                topics: ["cybersecurity", "data security"],
+                summary: "New security, operational, and transparency standards for controlled-access data repositories and human biospecimens.",
+                details: `<p><strong>NOT-OD-25-159 (Data Repositories):</strong> Establishes security, operational, and transparency standards for controlled-access data repositories (CADRs) storing sensitive human research data. Effective immediately.</p>
+                <p><strong>NOT-OD-25-160 (Biospecimens):</strong> Enhances security measures for human biospecimens in NIH-funded research. Effective October 24, 2025.</p>`
+            },
+
+            // Agency-Specific: NSF
+            {
+                id: 26,
+                category: "agency",
+                icon: "nsf",
+                title: "NSF Guidelines for Research Security Analytics",
+                date: "February 2023",
+                agencies: ["NSF"],
+                topics: ["risk assessment", "disclosure"],
+                summary: "Outlines advanced monitoring and verification activities of NSF proposals and awards with transparency guardrails.",
+                details: `<p>Guidelines providing transparency around use of data analytics to monitor and validate disclosed information.</p>
+                <p><strong>Key Points:</strong></p>
+                <ul>
+                    <li>Activities are not investigative and cannot be incorporated into merit review process</li>
+                    <li>Sources include SCOPUS, Web of Science, and U.S. Patent and Trademark Office Patent Database</li>
+                    <li>Establishes guardrails around analytics use</li>
+                </ul>`
+            },
+            {
+                id: 27,
+                category: "agency",
+                icon: "nsf",
+                title: "NSF TRUST (Trusted Research Using Safeguards and Transparency)",
+                date: "June 2024",
+                agencies: ["NSF"],
+                topics: ["risk assessment", "critical technologies"],
+                summary: "Proposal risk review process focusing on critical technologies, beginning with quantum proposals in FY25.",
+                details: `<p>NSF initiated proposal risk review process with phased implementation:</p>
+                <ul>
+                    <li>Phase 1: Pilot of quantum proposals in FY25</li>
+                    <li>Phase 2: Expanding to other key technologies</li>
+                    <li>Phase 3: Scaling up for all CHIPS and Science Act key technologies</li>
+                </ul>
+                <p><strong>Three Evaluation Criteria:</strong></p>
+                <ul>
+                    <li>Appointments/positions with U.S. proscribed parties and current MFTRP participation</li>
+                    <li>Non-disclosures of appointments, activities, and financial support</li>
+                    <li>Potential foreseeable national security applications of research</li>
+                </ul>
+                <p>NSF considers only current foreign appointments/affiliations; co-authorship is NOT considered in risk assessment.</p>`
+            },
+            {
+                id: 28,
+                category: "agency",
+                icon: "nsf",
+                title: "NSF Important Notice No. 149",
+                date: "July 10, 2025 (Effective October 10, 2025)",
+                agencies: ["NSF"],
+                topics: ["training", "disclosure", "FTRP", "Confucius Institute"],
+                summary: "Implementation of CHIPS Act and NSPM-33 requirements including training certification, MFTRP annual certification, and Confucius Institute restrictions.",
+                details: `<p><strong>New Requirements Effective October 10, 2025:</strong></p>
+                <ul>
+                    <li>Institutions must maintain supporting documentation for foreign activities reported as C&P support</li>
+                    <li>Senior/key personnel must certify research security training completion within 12 months prior to submission</li>
+                    <li>AORs must certify all senior/key personnel completed RST and institution has RCR training plan meeting CHIPS Act requirements</li>
+                    <li>IHE AORs must certify no Confucius Institute contract/agreement (absent waiver)</li>
+                </ul>
+                <p><strong>Annual MFTRP Certification:</strong> Rolling out June 7, 2025 for all PIs/co-PIs on awards made on or after May 20, 2024. Sample contracts and FAQs available on NSF website.</p>`
+            },
+
+            // Agency-Specific: USDA
+            {
+                id: 29,
+                category: "agency",
+                icon: "usda",
+                title: "USDA America First Memorandum for Research Security",
+                date: "July 8, 2025",
+                agencies: ["USDA"],
+                topics: ["disclosure", "FTRP", "training"],
+                summary: "Comprehensive research security requirements including foreign award review, MFTRP prohibition, and extensive disclosure requirements.",
+                details: `<p><strong>Requires All USDA Mission Areas, Agencies, and Offices to:</strong></p>
+                <ul>
+                    <li>Within 30 days: Review all current awards/subawards with foreign persons/entities with justification</li>
+                    <li>Effective immediately: Request approval prior to issuing awards to foreign persons/entities</li>
+                </ul>
+                <p><strong>Requires Applicants (Covered Individuals) to:</strong></p>
+                <ul>
+                    <li>Complete Common Forms for Biosketches and C&P Support; update annually</li>
+                    <li>Certify not participant in MFTRP; recertify annually</li>
+                    <li>Certify not contracting with any foreign person/entity in country of concern</li>
+                    <li>Certify not party to utilizing forced labor</li>
+                    <li>Complete annual disclosure of contracts with foreign government programs</li>
+                    <li>Seek approval to subaward any portion of funded arrangement</li>
+                </ul>
+                <p><strong>Requires Employing Entities to:</strong></p>
+                <ul>
+                    <li>Certify applicants' completion of research security training</li>
+                    <li>Prohibit applicants who participated in MFTRPs in past 10 years from working on USDA-supported projects</li>
+                    <li>Provide supporting documentation for foreign activities</li>
+                    <li>Review documents for compliance including COI/COC guidance</li>
+                </ul>`
+            },
+
+            // Reports & Studies
+            {
+                id: 30,
+                category: "reports",
+                icon: "reports",
+                title: "JASON Report: Fundamental Research Security",
+                date: "December 2019",
+                agencies: ["NSF", "JASON"],
+                topics: ["fundamental research", "research integrity"],
+                summary: "Report outlining that foreign influence concerns can be addressed within research integrity framework while maintaining openness.",
+                details: `<p>Commissioned by NSF, this JASON report outlines that concerns of foreign influence can be addressed within the framework of research integrity.</p>
+                <p><strong>Key Points:</strong></p>
+                <ul>
+                    <li>Benefits of openness in research and inclusion of foreign researchers dictate against measures restricting fundamental research</li>
+                    <li>Includes questions for researchers to consider when entering collaborations (Section 7.3, pages 34-36)</li>
+                </ul>
+                <p>NSF issued a formal response to this report.</p>`
+            },
+            {
+                id: 31,
+                category: "reports",
+                icon: "reports",
+                title: "JASON Report: Safeguarding the Research Enterprise",
+                date: "March 2024",
+                agencies: ["NSF", "JASON"],
+                topics: ["risk assessment", "critical technologies"],
+                summary: "Recommends NSF adopt dynamic approach for identifying sensitive research topics with proportionate risk mitigation strategies.",
+                details: `<p>Commissioned by NSF, this report recommends:</p>
+                <ul>
+                    <li>Adopt dynamic approach for identifying potentially sensitive research topics as they arise</li>
+                    <li>Weigh balance between protective benefits and unintended negative consequences of controls</li>
+                    <li>Identification of sensitive projects should occur before peer or panel review</li>
+                    <li>Mitigation strategies should be negotiated by PI, NSF, and institution</li>
+                    <li>Measures should be proportionate to assessed risk relative to associated costs</li>
+                </ul>`
+            },
+            {
+                id: 32,
+                category: "reports",
+                icon: "reports",
+                title: "NIST IR 8481: Cybersecurity for Research",
+                date: "August 2023",
+                agencies: ["NIST"],
+                topics: ["cybersecurity"],
+                summary: "Initial public draft summarizing IHE cybersecurity challenges with resources and possible next steps.",
+                details: `<p>This NIST document summarizes feedback on institutions of higher education cybersecurity challenges and includes resources and possible next steps.</p>
+                <p><strong>Per Final RSP Guidelines (July 2024):</strong> Institutions are to implement a cybersecurity program one year after publication of the final version of this NIST cybersecurity resource.</p>
+                <p>Federal agencies are currently working with NIST and IHEs via the Federal Demonstration Partnership to develop cybersecurity guidelines aligning with NIST 8481 for use in RSPs.</p>`
+            },
+            {
+                id: 33,
+                category: "reports",
+                icon: "reports",
+                title: "NIST IR 8484: Safeguarding International Research",
+                date: "August 2023",
+                agencies: ["NIST"],
+                topics: ["risk assessment", "international collaboration"],
+                summary: "Framework integrating U.S. government policies for risk-balanced approach to safeguarding international S&T from undue foreign interference.",
+                details: `<p>Integrates several U.S. government policies and guidelines to develop a framework for an integrated, risk-balanced approach for safeguarding international science and technology from undue foreign interference.</p>`
+            },
+            {
+                id: 34,
+                category: "reports",
+                icon: "reports",
+                title: "National Academies: Simplifying Research Regulations and Policies",
+                date: "September 3, 2025",
+                agencies: ["NASEM"],
+                topics: ["research administration", "NSPM-33"],
+                summary: "Expedited study examining federal research regulations with recommendations for improving processes while maintaining oversight.",
+                details: `<p>Committee conducted expedited study to examine federal research regulations and identify ways to improve regulatory processes.</p>
+                <p><strong>Research Security Specific Recommendations:</strong></p>
+                <ul>
+                    <li>Implement NSPM-33 common disclosure forms without deviation as primary means to identify COCs</li>
+                    <li>Develop federal-wide FAQs via interagency working group</li>
+                    <li>Use SciENcv system, persistent identifiers (PIDs), and APIs across agencies</li>
+                    <li>Establish common principles for agency research security risk reviews</li>
+                    <li>Streamline and clarify export controls with academic representation</li>
+                    <li>Adapt cybersecurity requirements for university settings via comprehensive NIST review</li>
+                </ul>`
+            },
+            {
+                id: 35,
+                category: "reports",
+                icon: "reports",
+                title: "National Academies: Foreign-Funded Language and Culture Institutes",
+                date: "June 2023",
+                agencies: ["NASEM"],
+                topics: ["Confucius Institute"],
+                summary: "Recommendations for U.S. institutions to identify and mitigate risks associated with foreign-funded language and culture institutes.",
+                details: `<p>Provides recommendations that U.S. institutions of higher education can take to identify and mitigate risks associated with foreign-funded language and culture institutes on campus.</p>
+                <p><strong>Related:</strong> House Committee on Homeland Security report (September 2024) states IHEs with Confucius Institute or Chinese entity of concern relationships are ineligible for DHS funds unless relationship is terminated.</p>`
+            },
+
+            // International Policies
+            {
+                id: 36,
+                category: "international",
+                icon: "international",
+                title: "G7 Best Practices for Secure and Open Research",
+                date: "February 2024",
+                agencies: ["G7"],
+                topics: ["international collaboration"],
+                summary: "G7 nations' joint best practices document for balancing research security with international scientific openness.",
+                details: `<p>Joint document from G7 nations (Canada, France, Germany, Italy, Japan, United Kingdom, United States) providing best practices for secure and open research.</p>`
+            },
+            {
+                id: 37,
+                category: "international",
+                icon: "international",
+                title: "Australia: Guidelines to Counter Foreign Interference",
+                date: "November 2021",
+                agencies: ["Australia"],
+                topics: ["international collaboration", "risk assessment"],
+                summary: "Guidelines for Australian university sector to manage and engage with risk to deepen resilience against foreign interference.",
+                details: `<p>Provides guidelines for the Australian University sector to help manage and engage with risk to deepen resilience against foreign interference.</p>
+                <p><strong>Related Resource:</strong> China Defense Universities Tracker - searchable database providing risk ratings for collaboration with entities, including associated document "Exploring the military and security links of China's universities" (2019).</p>`
+            },
+            {
+                id: 38,
+                category: "international",
+                icon: "international",
+                title: "Canada: Safeguarding Your Research",
+                date: "October 2022",
+                agencies: ["Canada"],
+                topics: ["international collaboration"],
+                summary: "Government website providing guidance and resources for researchers engaging in international research.",
+                details: `<p>Canadian government website providing comprehensive guidance and resources for researchers engaging in international research collaborations.</p>`
+            },
+            {
+                id: 39,
+                category: "international",
+                icon: "international",
+                title: "UK Trusted Research",
+                date: "2019",
+                agencies: ["UK"],
+                topics: ["international collaboration", "research integrity"],
+                summary: "Advice and guidance supporting the integrity of the system of international research collaboration.",
+                details: `<p>Reference that can be utilized for advice and guidance which supports the integrity of the system of international research collaboration.</p>`
+            },
+            {
+                id: 40,
+                category: "international",
+                icon: "international",
+                title: "Japan: Policy Directions for Research Integrity",
+                date: "April 2021",
+                agencies: ["Japan"],
+                topics: ["research integrity", "international collaboration"],
+                summary: "Policy directions ensuring research integrity in response to new risks from internationalization and openness.",
+                details: `<p>Policy Directions for Ensuring Research Integrity in Response to New Risks Associated with Increasing Internationalization and Openness of Research Activities.</p>`
+            },
+
+            // Resources
+            {
+                id: 41,
+                category: "resources",
+                icon: "resources",
+                title: "Historical Foundation: NSDD-189",
+                date: "September 1985",
+                agencies: ["White House"],
+                topics: ["fundamental research"],
+                summary: "Foundational federal document outlining national policy of openness in federally-funded fundamental research.",
+                details: `<p>National Security Decision Directive-189: National Policy on the Transfer of Scientific, Technical and Engineering Information.</p>
+                <p>This foundational federal document outlined a national policy of openness in federally-funded fundamental research, including the fundamental research exclusion.</p>
+                <p>Issued by the Office of the President (Ronald Reagan) in September 1985.</p>`
+            }
+        ];
+
+        // State management
+        let currentCategory = 'all';
+        let activeAgencies = [];
+        let activeTopics = [];
+        let searchQuery = '';
+        let expandedCards = new Set();
+
+        // DOM Elements
+        const mainContent = document.getElementById('mainContent');
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const categoryNav = document.getElementById('categoryNav');
+        const agencyFilters = document.getElementById('agencyFilters');
+        const topicFilters = document.getElementById('topicFilters');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCounts();
+            renderContent();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Search
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase();
+                searchClear.classList.toggle('visible', searchQuery.length > 0);
+                renderContent();
+            });
+
+            searchClear.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                searchClear.classList.remove('visible');
+                renderContent();
+            });
+
+            // Keyboard shortcut for search
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && document.activeElement !== searchInput) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+                if (e.key === 'Escape') {
+                    searchInput.blur();
+                }
+            });
+
+            // Category navigation
+            categoryNav.addEventListener('click', (e) => {
+                const navItem = e.target.closest('.nav-item');
+                if (navItem) {
+                    currentCategory = navItem.dataset.category;
+                    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                    navItem.classList.add('active');
+                    renderContent();
+                }
+            });
+
+            // Agency filters
+            agencyFilters.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-tag')) {
+                    const agency = e.target.dataset.agency;
+                    if (activeAgencies.includes(agency)) {
+                        activeAgencies = activeAgencies.filter(a => a !== agency);
+                        e.target.classList.remove('active');
+                    } else {
+                        activeAgencies.push(agency);
+                        e.target.classList.add('active');
+                    }
+                    renderContent();
+                }
+            });
+
+            // Topic filters
+            topicFilters.addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-tag')) {
+                    const topic = e.target.dataset.topic;
+                    if (activeTopics.includes(topic)) {
+                        activeTopics = activeTopics.filter(t => t !== topic);
+                        e.target.classList.remove('active');
+                    } else {
+                        activeTopics.push(topic);
+                        e.target.classList.add('active');
+                    }
+                    renderContent();
+                }
+            });
+        }
+
+        function updateCounts() {
+            const counts = {
+                all: libraryData.length,
+                federal: libraryData.filter(d => d.category === 'federal').length,
+                legislative: libraryData.filter(d => d.category === 'legislative').length,
+                agency: libraryData.filter(d => d.category === 'agency').length,
+                reports: libraryData.filter(d => d.category === 'reports').length,
+                international: libraryData.filter(d => d.category === 'international').length
+            };
+
+            document.getElementById('countAll').textContent = counts.all;
+            document.getElementById('countFederal').textContent = counts.federal;
+            document.getElementById('countLegislative').textContent = counts.legislative;
+            document.getElementById('countAgency').textContent = counts.agency;
+            document.getElementById('countReports').textContent = counts.reports;
+            document.getElementById('countInternational').textContent = counts.international;
+        }
+
+        function filterData() {
+            return libraryData.filter(item => {
+                // Category filter
+                if (currentCategory !== 'all' && item.category !== currentCategory) {
+                    return false;
+                }
+
+                // Agency filter
+                if (activeAgencies.length > 0) {
+                    const hasAgency = item.agencies.some(agency => 
+                        activeAgencies.some(active => agency.includes(active))
+                    );
+                    if (!hasAgency) return false;
+                }
+
+                // Topic filter
+                if (activeTopics.length > 0) {
+                    const hasTopic = item.topics.some(topic => 
+                        activeTopics.some(active => topic.toLowerCase().includes(active.toLowerCase()))
+                    );
+                    if (!hasTopic) return false;
+                }
+
+                // Search filter
+                if (searchQuery) {
+                    const searchFields = [
+                        item.title,
+                        item.summary,
+                        item.details,
+                        item.date,
+                        ...item.agencies,
+                        ...item.topics
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchFields.includes(searchQuery)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function getCategoryInfo(category) {
+            const info = {
+                'all': { title: 'All Documents', description: 'Complete reference library of federal research security policies, requirements, and resources.' },
+                'federal': { title: 'Federal-Wide Efforts', description: 'Cross-agency policies, common forms, and guidelines affecting all federal research funding.' },
+                'legislative': { title: 'Legislative Requirements', description: 'Congressional acts, NDAAs, and statutory requirements for research security.' },
+                'agency': { title: 'Agency-Specific Policies', description: 'Individual agency requirements from DoD, NASA, DoE, NIH, NSF, and USDA.' },
+                'reports': { title: 'Reports & Studies', description: 'JASON reports, NIST publications, and National Academies studies on research security.' },
+                'international': { title: 'International Policies', description: 'Research security policies and guidelines from G7 and other allied nations.' },
+                'resources': { title: 'Useful Resources', description: 'Links to agency portals, association resources, and historical documents.' }
+            };
+            return info[category] || info['all'];
+        }
+
+        function renderContent() {
+            const filtered = filterData();
+            const categoryInfo = getCategoryInfo(currentCategory);
+
+            let html = `
+                <div class="content-header">
+                    <h1 class="content-title">${categoryInfo.title}</h1>
+                    <p class="content-description">${categoryInfo.description}</p>
+                </div>
+            `;
+
+            // Stats bar for "all" category
+            if (currentCategory === 'all' && !searchQuery && activeAgencies.length === 0 && activeTopics.length === 0) {
+                html += `
+                    <div class="stats-bar">
+                        <div class="stat-card">
+                            <div class="stat-value">${libraryData.filter(d => d.category === 'federal').length}</div>
+                            <div class="stat-label">Federal-Wide Policies</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${libraryData.filter(d => d.category === 'legislative').length}</div>
+                            <div class="stat-label">Legislative Items</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${libraryData.filter(d => d.category === 'agency').length}</div>
+                            <div class="stat-label">Agency Policies</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Countries Covered</div>
+                        </div>
+                    </div>
+                `;
+
+                // Quick links
+                html += `
+                    <div class="quick-links">
+                        <div class="quick-links-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                            Quick Access
+                        </div>
+                        <div class="quick-links-grid">
+                            <a href="https://www.nsf.gov/research-security" target="_blank" class="quick-link">
+                                <div class="quick-link-icon">🔬</div>
+                                <span>NSF Research Security</span>
+                            </a>
+                            <a href="https://grants.nih.gov/policy/foreign-interference.htm" target="_blank" class="quick-link">
+                                <div class="quick-link-icon">🏥</div>
+                                <span>NIH Foreign Interference</span>
+                            </a>
+                            <a href="https://www.cogr.edu" target="_blank" class="quick-link">
+                                <div class="quick-link-icon">📋</div>
+                                <span>COGR Resources</span>
+                            </a>
+                            <a href="https://secure-center.org" target="_blank" class="quick-link">
+                                <div class="quick-link-icon">🛡️</div>
+                                <span>SECURE Center</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Results info
+            html += `
+                <div class="results-info">
+                    <span class="results-count">Showing <strong>${filtered.length}</strong> of ${libraryData.length} documents</span>
+                </div>
+            `;
+
+            // Cards or no results
+            if (filtered.length === 0) {
+                html += `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No documents found</h3>
+                        <p>Try adjusting your search terms or filters</p>
+                    </div>
+                `;
+            } else {
+                html += '<div class="cards-grid">';
+                filtered.forEach(item => {
+                    const isExpanded = expandedCards.has(item.id);
+                    const title = highlightText(item.title, searchQuery);
+                    const summary = highlightText(item.summary, searchQuery);
+                    
+                    html += `
+                        <div class="card ${isExpanded ? 'expanded' : ''}" data-id="${item.id}">
+                            <div class="card-header">
+                                <div class="card-icon ${item.icon}">
+                                    ${getIconEmoji(item.icon)}
+                                </div>
+                                <div class="card-meta">
+                                    <div class="card-category">${getCategoryLabel(item.category)}</div>
+                                    <h3 class="card-title">${title}</h3>
+                                </div>
+                                <div class="card-expand">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="card-tags">
+                                <span class="card-tag date">${item.date}</span>
+                                ${item.agencies.slice(0, 3).map(agency => `<span class="card-tag agency">${agency}</span>`).join('')}
+                            </div>
+                            <p class="card-summary">${summary}</p>
+                            <div class="card-details">
+                                <div class="card-details-content">
+                                    ${item.details}
+                                </div>
+                                ${item.subItems ? renderSubItems(item.subItems) : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+
+            mainContent.innerHTML = html;
+
+            // Add card click handlers
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const id = parseInt(card.dataset.id);
+                    if (expandedCards.has(id)) {
+                        expandedCards.delete(id);
+                        card.classList.remove('expanded');
+                    } else {
+                        expandedCards.add(id);
+                        card.classList.add('expanded');
+                    }
+                });
+            });
+        }
+
+        function getIconEmoji(icon) {
+            const emojis = {
+                'federal': '🏛️',
+                'legislative': '📜',
+                'dod': '🎖️',
+                'nasa': '🚀',
+                'doe': '⚡',
+                'nih': '🧬',
+                'nsf': '🔬',
+                'usda': '🌾',
+                'international': '🌍',
+                'reports': '📊',
+                'resources': '🔗'
+            };
+            return emojis[icon] || '📄';
+        }
+
+        function getCategoryLabel(category) {
+            const labels = {
+                'federal': 'Federal-Wide',
+                'legislative': 'Legislative',
+                'agency': 'Agency Policy',
+                'reports': 'Report/Study',
+                'international': 'International',
+                'resources': 'Resource'
+            };
+            return labels[category] || category;
+        }
+
+        function renderSubItems(subItems) {
+            if (!subItems || subItems.length === 0) return '';
+            
+            let html = '<div class="sub-items">';
+            subItems.forEach(item => {
+                html += `
+                    <div class="sub-item">
+                        <div class="sub-item-title">${item.title}</div>
+                        <div class="sub-item-meta">${item.date} • ${item.source}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Initial render
+        updateCounts();
+        renderContent();
+    </script>
+</body>
+</html>
